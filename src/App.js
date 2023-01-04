@@ -37,7 +37,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/navbar" element = {<Navbar/>} />
+        <Route path="/" element = {<Navbar/>} />
         <Route path="/areas/" element = {<AreaList/>} />
         <Route path="/areas/add" element = {<AddArea/>} />
         <Route path="/areas/edit/:id" element = {<EditArea/>} />
