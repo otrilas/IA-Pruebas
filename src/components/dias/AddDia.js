@@ -1,52 +1,40 @@
-import React , {useState, useEffect} from 'react';
+import React , {useState} from 'react';
 import axios from 'axios';
-import { useNavigate , useParams} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const EditGestion = () => {
-const [numero, setNumero] = useState("");
+const AddDia = () => {
+const [codigo, setCodigo] = useState("");    
 const [nombre, setNombre] = useState("");
 const [estado, setEstado] = useState("1");
 const navigate = useNavigate();
-const {id} = useParams();
 
-useEffect(() => {
-    getGestionById();
-},[]);
-
-const updateGestion = async(e) => {
+const saveDia = async(e) => {
     e.preventDefault();
     try {
-        await axios.patch(`http://localhost:5000/gestiones/${id}`,{
-            numero,
+        await axios.post('http://localhost:5000/dias',{
+            codigo,
             nombre,
             estado
         });
-        navigate("/gestiones/")
+        navigate("/dias/")
     } catch (error) {
         console.log(error);
     }
 }
 
-const getGestionById = async () => {
-    const response = await axios.get(`http://localhost:5000/gestiones/${id}`);
-    setNumero(response.data.numero);
-    setNombre(response.data.nombre);
-    setEstado(response.data.estado);
-}
-
   return (
     <div className="columns mt-5 is-centered">
         <div className="column is-half">
-            <form onSubmit={updateGestion}>
+            <form onSubmit={saveDia}>
                <div className="field">
-                    <label className='label'>Numero </label>
+                    <label className='label'>Codigo </label>
                     <div className="control">
                         <input 
                             type="number" 
                             className='input' 
-                            value={numero} 
-                            onChange = {(e) => setNumero(e.target.value)} 
-                            placeholder='numero' />
+                            value={codigo} 
+                            onChange = {(e) => setCodigo(e.target.value)} 
+                            placeholder='codigo' />
                     </div>
                </div>
 
@@ -57,7 +45,7 @@ const getGestionById = async () => {
                             type="text" 
                             className='input' 
                             value={nombre} 
-                            onChange = {(e) => setNombre(e.target.value)} placeholder='nombre' />
+                            onChange = {(e) => setNombre(e.target.value)} placeholder='Nombre' />
                     </div>
                </div>
 
@@ -74,7 +62,7 @@ const getGestionById = async () => {
                </div>
 
                <div className="field">
-                    <button type='submit' className='button is-success'> UPDATE</button>
+                    <button type='submit' className='button is-success'> Guardar</button>
                </div>
             </form>
         </div>
@@ -82,4 +70,4 @@ const getGestionById = async () => {
   )
 }
 
-export default EditGestion;
+export default AddDia;

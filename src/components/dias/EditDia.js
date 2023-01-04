@@ -2,34 +2,34 @@ import React , {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate , useParams} from 'react-router-dom';
 
-const EditGestion = () => {
-const [numero, setNumero] = useState("");
+const EditDia = () => {
+const [codigo, setCodigo] = useState("");
 const [nombre, setNombre] = useState("");
 const [estado, setEstado] = useState("1");
 const navigate = useNavigate();
 const {id} = useParams();
 
 useEffect(() => {
-    getGestionById();
+    getDiaById();
 },[]);
 
-const updateGestion = async(e) => {
+const updateDia = async(e) => {
     e.preventDefault();
     try {
-        await axios.patch(`http://localhost:5000/gestiones/${id}`,{
-            numero,
+        await axios.patch(`http://localhost:5000/dias/${id}`,{
+            codigo,
             nombre,
             estado
         });
-        navigate("/gestiones/")
+        navigate("/dias/")
     } catch (error) {
         console.log(error);
     }
 }
 
-const getGestionById = async () => {
-    const response = await axios.get(`http://localhost:5000/gestiones/${id}`);
-    setNumero(response.data.numero);
+const getDiaById = async () => {
+    const response = await axios.get(`http://localhost:5000/dias/${id}`);
+    setCodigo(response.data.codigo);
     setNombre(response.data.nombre);
     setEstado(response.data.estado);
 }
@@ -37,16 +37,16 @@ const getGestionById = async () => {
   return (
     <div className="columns mt-5 is-centered">
         <div className="column is-half">
-            <form onSubmit={updateGestion}>
+            <form onSubmit={updateDia}>
                <div className="field">
-                    <label className='label'>Numero </label>
+                    <label className='label'>Codigo </label>
                     <div className="control">
                         <input 
                             type="number" 
                             className='input' 
-                            value={numero} 
-                            onChange = {(e) => setNumero(e.target.value)} 
-                            placeholder='numero' />
+                            value={codigo} 
+                            onChange = {(e) => setCodigo(e.target.value)} 
+                            placeholder='codigo' />
                     </div>
                </div>
 
@@ -82,4 +82,4 @@ const getGestionById = async () => {
   )
 }
 
-export default EditGestion;
+export default EditDia;

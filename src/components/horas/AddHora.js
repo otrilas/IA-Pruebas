@@ -1,63 +1,51 @@
-import React , {useState, useEffect} from 'react';
+import React , {useState} from 'react';
 import axios from 'axios';
-import { useNavigate , useParams} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const EditGestion = () => {
-const [numero, setNumero] = useState("");
-const [nombre, setNombre] = useState("");
+const AddHora = () => {
+const [fecha_inicio, setFechaInicio] = useState("");    
+const [fecha_fin, setFechaFin] = useState("");
 const [estado, setEstado] = useState("1");
 const navigate = useNavigate();
-const {id} = useParams();
 
-useEffect(() => {
-    getGestionById();
-},[]);
-
-const updateGestion = async(e) => {
+const saveHora = async(e) => {
     e.preventDefault();
     try {
-        await axios.patch(`http://localhost:5000/gestiones/${id}`,{
-            numero,
-            nombre,
+        await axios.post('http://localhost:5000/horas',{
+            fecha_inicio,
+            fecha_fin,
             estado
         });
-        navigate("/gestiones/")
+        navigate("/horas/")
     } catch (error) {
         console.log(error);
     }
 }
 
-const getGestionById = async () => {
-    const response = await axios.get(`http://localhost:5000/gestiones/${id}`);
-    setNumero(response.data.numero);
-    setNombre(response.data.nombre);
-    setEstado(response.data.estado);
-}
-
   return (
     <div className="columns mt-5 is-centered">
         <div className="column is-half">
-            <form onSubmit={updateGestion}>
+            <form onSubmit={saveHora}>
                <div className="field">
-                    <label className='label'>Numero </label>
+                    <label className='label'>fecha inicio </label>
                     <div className="control">
                         <input 
-                            type="number" 
+                            type="TIME" 
                             className='input' 
-                            value={numero} 
-                            onChange = {(e) => setNumero(e.target.value)} 
-                            placeholder='numero' />
+                            value={fecha_inicio} 
+                            onChange = {(e) => setFechaInicio(e.target.value)} 
+                            placeholder='fecha inicio' />
                     </div>
                </div>
 
                <div className="field">
-                    <label className='label'>Nombre </label>
+                    <label className='label'>fecha fin </label>
                     <div className="control">
                         <input 
-                            type="text" 
+                            type="TIME" 
                             className='input' 
-                            value={nombre} 
-                            onChange = {(e) => setNombre(e.target.value)} placeholder='nombre' />
+                            value={fecha_fin} 
+                            onChange = {(e) => setFechaFin(e.target.value)} placeholder='fecha fin' />
                     </div>
                </div>
 
@@ -74,7 +62,7 @@ const getGestionById = async () => {
                </div>
 
                <div className="field">
-                    <button type='submit' className='button is-success'> UPDATE</button>
+                    <button type='submit' className='button is-success'> Guardar</button>
                </div>
             </form>
         </div>
@@ -82,4 +70,4 @@ const getGestionById = async () => {
   )
 }
 
-export default EditGestion;
+export default AddHora;

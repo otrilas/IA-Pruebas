@@ -2,51 +2,54 @@ import React , {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate , useParams} from 'react-router-dom';
 
-const EditGestion = () => {
-const [numero, setNumero] = useState("");
+const EditPiso = () => {
+const [id_edificio, setIdEdificio] = useState("");    
 const [nombre, setNombre] = useState("");
+const [descripcion, setDescripcion] = useState("");
 const [estado, setEstado] = useState("1");
 const navigate = useNavigate();
 const {id} = useParams();
 
 useEffect(() => {
-    getGestionById();
+    getPisoById();
 },[]);
 
-const updateGestion = async(e) => {
+const updatePiso = async(e) => {
     e.preventDefault();
     try {
-        await axios.patch(`http://localhost:5000/gestiones/${id}`,{
-            numero,
+        await axios.patch(`http://localhost:5000/pisos/${id}`,{
+            id_edificio,
             nombre,
+            descripcion,
             estado
         });
-        navigate("/gestiones/")
+        navigate("/pisos/")
     } catch (error) {
         console.log(error);
     }
 }
 
-const getGestionById = async () => {
-    const response = await axios.get(`http://localhost:5000/gestiones/${id}`);
-    setNumero(response.data.numero);
+const getPisoById = async () => {
+    const response = await axios.get(`http://localhost:5000/pisos/${id}`);
+    setIdEdificio(response.data.id_edificio);
     setNombre(response.data.nombre);
+    setDescripcion(response.data.descripcion);
     setEstado(response.data.estado);
 }
 
   return (
     <div className="columns mt-5 is-centered">
         <div className="column is-half">
-            <form onSubmit={updateGestion}>
+            <form onSubmit={updatePiso}>
                <div className="field">
-                    <label className='label'>Numero </label>
+                    <label className='label'>id edificio </label>
                     <div className="control">
                         <input 
                             type="number" 
                             className='input' 
-                            value={numero} 
-                            onChange = {(e) => setNumero(e.target.value)} 
-                            placeholder='numero' />
+                            value={id_edificio} 
+                            onChange = {(e) => setIdEdificio(e.target.value)} 
+                            placeholder='id edificio' />
                     </div>
                </div>
 
@@ -58,6 +61,16 @@ const getGestionById = async () => {
                             className='input' 
                             value={nombre} 
                             onChange = {(e) => setNombre(e.target.value)} placeholder='nombre' />
+                    </div>
+               </div>
+               <div className="field">
+                    <label className='label'>Descripcion </label>
+                    <div className="control">
+                        <input 
+                            type="text" 
+                            className='input' 
+                            value={descripcion} 
+                            onChange = {(e) => setDescripcion(e.target.value)} placeholder='descripcion' />
                     </div>
                </div>
 
@@ -82,4 +95,4 @@ const getGestionById = async () => {
   )
 }
 
-export default EditGestion;
+export default EditPiso;

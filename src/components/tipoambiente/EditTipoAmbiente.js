@@ -2,54 +2,42 @@ import React , {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate , useParams} from 'react-router-dom';
 
-const EditGestion = () => {
-const [numero, setNumero] = useState("");
+const EditTipoAmbiente = () => {
 const [nombre, setNombre] = useState("");
+const [descripcion, setDescripcion] = useState("");
 const [estado, setEstado] = useState("1");
 const navigate = useNavigate();
 const {id} = useParams();
 
 useEffect(() => {
-    getGestionById();
+    getTipoAmbienteById();
 },[]);
 
-const updateGestion = async(e) => {
+const updateTipoAmbiente = async(e) => {
     e.preventDefault();
     try {
-        await axios.patch(`http://localhost:5000/gestiones/${id}`,{
-            numero,
+        await axios.patch(`http://localhost:5000/tipoambientes/${id}`,{
+            descripcion,
             nombre,
             estado
         });
-        navigate("/gestiones/")
+        navigate("/tipoambientes/")
     } catch (error) {
         console.log(error);
     }
 }
 
-const getGestionById = async () => {
-    const response = await axios.get(`http://localhost:5000/gestiones/${id}`);
-    setNumero(response.data.numero);
+const getTipoAmbienteById = async () => {
+    const response = await axios.get(`http://localhost:5000/tipoambientes/${id}`);
     setNombre(response.data.nombre);
+    setDescripcion(response.data.descripcion);
     setEstado(response.data.estado);
 }
 
   return (
     <div className="columns mt-5 is-centered">
         <div className="column is-half">
-            <form onSubmit={updateGestion}>
-               <div className="field">
-                    <label className='label'>Numero </label>
-                    <div className="control">
-                        <input 
-                            type="number" 
-                            className='input' 
-                            value={numero} 
-                            onChange = {(e) => setNumero(e.target.value)} 
-                            placeholder='numero' />
-                    </div>
-               </div>
-
+            <form onSubmit={updateTipoAmbiente}>
                <div className="field">
                     <label className='label'>Nombre </label>
                     <div className="control">
@@ -57,7 +45,19 @@ const getGestionById = async () => {
                             type="text" 
                             className='input' 
                             value={nombre} 
-                            onChange = {(e) => setNombre(e.target.value)} placeholder='nombre' />
+                            onChange = {(e) => setNombre(e.target.value)} 
+                            placeholder='nombre' />
+                    </div>
+               </div>
+
+               <div className="field">
+                    <label className='label'>Descripcion </label>
+                    <div className="control">
+                        <input 
+                            type="text" 
+                            className='input' 
+                            value={descripcion} 
+                            onChange = {(e) => setDescripcion(e.target.value)} placeholder='descripcion' />
                     </div>
                </div>
 
@@ -82,4 +82,4 @@ const getGestionById = async () => {
   )
 }
 
-export default EditGestion;
+export default EditTipoAmbiente;
