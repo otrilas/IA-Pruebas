@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 const PersonaList = () => {
-const [persona, setUser] = useState([]);
+const [persona, setPersona] = useState([]);
 
 useEffect(()=>{
     getPersona();
@@ -11,7 +11,7 @@ useEffect(()=>{
 
 const getPersona = async ()=>{
     const response = await axios.get("http://localhost:5000/personas");
-    setUser(response.data); 
+    setPersona(response.data); 
 }
 
 const deletePersona = async (id) =>{

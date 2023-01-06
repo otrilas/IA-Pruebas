@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 const PisoList = () => {
-const [piso, setUser] = useState([]);
+const [piso, setPiso] = useState([]);
 
 useEffect(()=>{
     getPiso();
@@ -11,7 +11,7 @@ useEffect(()=>{
 
 const getPiso = async ()=>{
     const response = await axios.get("http://localhost:5000/pisos");
-    setUser(response.data); 
+    setPiso(response.data); 
 }
 
 const deletePiso = async (id) =>{

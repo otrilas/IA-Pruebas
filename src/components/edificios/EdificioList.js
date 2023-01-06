@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 const EdificioList = () => {
-const [edificio, setUser] = useState([]);
+const [edificio, setEdificio] = useState([]);
 
 useEffect(()=>{
     getEdificio();
@@ -11,7 +11,7 @@ useEffect(()=>{
 
 const getEdificio = async ()=>{
     const response = await axios.get("http://localhost:5000/edificios");
-    setUser(response.data); 
+    setEdificio(response.data); 
 }
 
 const deleteEdificio = async (id) =>{

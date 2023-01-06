@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 const FacultadList = () => {
-const [facultad, setUser] = useState([]);
+const [facultad, setFacultad] = useState([]);
 
 useEffect(()=>{
     getFacultad();
@@ -11,7 +11,7 @@ useEffect(()=>{
 
 const getFacultad = async ()=>{
     const response = await axios.get("http://localhost:5000/facultades");
-    setUser(response.data); 
+    setFacultad(response.data); 
 }
 
 const deleteFacultad = async (id) =>{

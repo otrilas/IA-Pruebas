@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 const GestionList = () => {
-const [gestion, setUser] = useState([]);
+const [gestion, setGestion] = useState([]);
 
 useEffect(()=>{
     getGestion();
@@ -11,7 +11,7 @@ useEffect(()=>{
 
 const getGestion = async ()=>{
     const response = await axios.get("http://localhost:5000/gestiones");
-    setUser(response.data); 
+    setGestion(response.data); 
 }
 
 const deleteGestion = async (id) =>{

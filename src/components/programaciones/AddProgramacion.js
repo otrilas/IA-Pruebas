@@ -2,62 +2,66 @@ import React , {useState} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-const SERVER = 'http://localhost:5000';
+const SERVER = 'http://localhost:500';
 
-const AddPiso = () => {
-const [id_edificio, setIdEdificio] = useState("");    
-const [nombre, setNombre] = useState("");
-const [descripcion, setDescripcion] = useState("");
+const AddProgramacion = () => {
+const [id_estudiante, setIdEstudiante] = useState("");
+const [id_asignacion, setIdAsignacion] = useState("");
 const [estado, setEstado] = useState("1");
 
-const [edificios, setEdificios] = useState([]);
+const [estudiantes, setEstudiantes] = useState([]);
+const [asignaciones, setAsignaciones] = useState([]);
 
 const navigate = useNavigate();
 
-const savePiso = async(e) => {
+const saveProgramacion = async(e) => {
     e.preventDefault();
     try {
-        await axios.post('http://localhost:5000/pisos',{
-            id_edificio,
-            nombre,
-            descripcion,
+        await axios.post('http://localhost:5000/programaciones',{
+            id_estudiante,
+            id_asignacion,
             estado
         });
-        navigate("/pisos/")
+        navigate("/programaciones/")
     } catch (error) {
         console.log(error);
     }
 }
-
     useEffect(() => {
-        fetch(`${SERVER}/edificios`)
+        fetch(`${SERVER}/estudiantes`)
             .then((response) => response.json())
             .then((data) => {
-                setEdificios(data);
+                setEstudiante(data);
             })
             .catch((err) => console.log(err));
+        
+        fetch(`${SERVER}/asignaciones`)
+        .then((response) => response.json())
+        .then((data) => {
+            setAsignacion(data);
+        })
+        .catch((err) => console.log(err));
     }, []);
 
   return (
     <div className="columns mt-5 is-centered">
         <div className="column is-half">
-            <form onSubmit={savePiso}>
+            <form onSubmit={saveProgramacion}>
                <div className="field">
-                    <label className='label'>Id edificio</label>
+                    <label className='label'>id_estudiante </label>
                     <div className="control">
                             <select
-                                name='edificio_id'
+                                name='estudiante_id'
                                 id=''
-                                // disabled='disabled'
                                 className='input'
                                 onChange={(e) => {
-                                    setIdEdificio(e.target.value);
+                                    setIdEstudiante(e.target.value);
                                 }}
                             >
-                                {edificios.map(({ id, nombre }) => {
+                                {estudiantes.map(({ id, cu }) => {
                                     return (
                                         <option key={id} value={id}>
-                                            {nombre}
+                                            {cu}
                                         </option>
                                     );
                                 })}
@@ -66,23 +70,24 @@ const savePiso = async(e) => {
                </div>
 
                <div className="field">
-                    <label className='label'>Nombre </label>
+                    <label className='label'>id_asignacion </label>
                     <div className="control">
-                        <input 
-                            type="text" 
-                            className='input' 
-                            value={nombre} 
-                            onChange = {(e) => setNombre(e.target.value)} placeholder='Nombre' />
-                    </div>
-               </div>
-               <div className="field">
-                    <label className='label'>Descripcion </label>
-                    <div className="control">
-                        <input 
-                            type="text" 
-                            className='input' 
-                            value={descripcion} 
-                            onChange = {(e) => setDescripcion(e.target.value)} placeholder='descripcion' />
+                            <select
+                                name='asignacion_id'
+                                id=''
+                                className='input'
+                                onChange={(e) => {
+                                    setIdAsignacion(e.target.value);
+                                }}
+                            >
+                                {asignaciones.map(({ id, grupo }) => {
+                                    return (
+                                        <option key={id} value={id}>
+                                            {grupo}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                     </div>
                </div>
 
@@ -107,4 +112,4 @@ const savePiso = async(e) => {
   )
 }
 
-export default AddPiso;
+export default AddProgramacion;

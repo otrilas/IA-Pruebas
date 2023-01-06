@@ -4,49 +4,47 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 const SERVER = 'http://localhost:5000';
 
-const AddFacultad = () => {
-const [id_area, setIdArea] = useState("");    
+const AddMateria = () => {
+const [id_carrera, setIdCarrera] = useState("");    
 const [nombre, setNombre] = useState("");
 const [nombre_abreviado, setNombreAbreviado] = useState("");
-const [fecha_creacion, setFechaCreacion] = useState("");
-const [descripcion, setDescripcion] = useState("");
-const [direccion, setDireccion] = useState("");
-const [telefono, setTelefono] = useState("");
-const [email, setEmail] = useState("");
-const [logo, setLogo] = useState("");
-const [escudo, setEscudo] = useState("");
+const [sigla, setSigla] = useState("");
+const [creditos, setCreditos] = useState("");
+const [horas_teoricas, setHorasTeoricas] = useState("");
+const [horas_practicas, setHorasPracticas] = useState("");
+const [horas_laboratorios, setHorasLaboratorios] = useState("");
+const [nivel, setNivel] = useState("");
 const [estado, setEstado] = useState("1");
 
-const [areas, setAreas] = useState([]);
+const [carreras, setCarreras] = useState([]);
 const navigate = useNavigate();
 
-const saveFacultad = async(e) => {
+const saveMateria = async(e) => {
     e.preventDefault();
     try {
-        await axios.post('http://localhost:5000/facultades',{
-            id_area,
+        await axios.post('http://localhost:5000/materias',{
+            id_carrera,
             nombre,
             nombre_abreviado,
-            fecha_creacion,
-            descripcion,
-            direccion,
-            telefono,
-            email,
-            logo,
-            escudo,
+            sigla,
+            creditos,
+            horas_teoricas,
+            horas_practicas,
+            horas_laboratorios,
+            nivel,
             estado
         });
-        navigate("/facultades/")
+        navigate("/materias/")
     } catch (error) {
         console.log(error);
     }
 };
 
     useEffect(()=>{
-        fetch(`${SERVER}/areas`)
+        fetch(`${SERVER}/carreras`)
             .then((response)=> response.json())
             .then((data) => {
-                setAreas(data);
+                setCarreras(data);
             })
             .catch((err) => console.log(err))
     },[]);
@@ -54,19 +52,19 @@ const saveFacultad = async(e) => {
   return (
     <div className="columns mt-5 is-centered">
         <div className="column is-half">
-            <form onSubmit={saveFacultad}>
+            <form onSubmit={saveMateria}>
                <div className="field">
-                    <label className='label'>id_area </label>
+                    <label className='label'>id carrera </label>
                     <div className="control">
                             <select
-                                name='area_id'
+                                name='carrera_id'
                                 id=''
                                 className='input'
                                 onChange={(e) => {
-                                    setIdArea(e.target.value);
+                                    setIdCarrera(e.target.value);
                                 }}
                             >
-                                {areas.map(({ id, nombre }) => {
+                                {carreras.map(({ id, nombre }) => {
                                     return (
                                         <option key={id} value={id}>
                                             {nombre}
@@ -99,77 +97,67 @@ const saveFacultad = async(e) => {
                </div>
                
                <div className="field">
-                    <label className='label'>fecha creacion </label>
-                    <div className="control">
-                        <input 
-                            type="date" 
-                            className='input' 
-                            value={fecha_creacion} 
-                            onChange = {(e) => setFechaCreacion(e.target.value)} placeholder='fecha creacion' />
-                    </div>
-               </div>
-               <div className="field">
-                    <label className='label'>decripcion </label>
+                    <label className='label'>sigla</label>
                     <div className="control">
                         <input 
                             type="text" 
                             className='input' 
-                            value={descripcion} 
-                            onChange = {(e) => setDescripcion(e.target.value)} placeholder='descripcion' />
+                            value={sigla} 
+                            onChange = {(e) => setSigla(e.target.value)} placeholder=' sigla' />
+                    </div>
+               </div>
+               <div className="field">
+                    <label className='label'>creditos </label>
+                    <div className="control">
+                        <input 
+                            type="number" 
+                            className='input' 
+                            value={creditos} 
+                            onChange = {(e) => setCreditos(e.target.value)} placeholder='creditos' />
                     </div>
                </div>
                
                <div className="field">
-                    <label className='label'>direccion </label>
+                    <label className='label'>horas_teoricas </label>
                     <div className="control">
                         <input 
-                            type="text" 
+                            type="number" 
                             className='input' 
-                            value={direccion} 
-                            onChange = {(e) => setDireccion(e.target.value)} placeholder='direccion' />
+                            value={horas_teoricas} 
+                            onChange = {(e) => setHorasTeoricas(e.target.value)} placeholder='horas_teoricas' />
                     </div>
                </div>
                <div className="field">
-                    <label className='label'>telefono </label>
+                    <label className='label'>horas_practicas </label>
                     <div className="control">
                         <input 
-                            type="text" 
+                            type="number" 
                             className='input' 
-                            value={telefono} 
-                            onChange = {(e) => setTelefono(e.target.value)} placeholder='telefono' />
+                            value={horas_practicas} 
+                            onChange = {(e) => setHorasPracticas(e.target.value)} placeholder='horas_practicas' />
                     </div>
                </div>
                <div className="field">
-                    <label className='label'>email </label>
+                    <label className='label'>horas_laboratorios </label>
                     <div className="control">
                         <input 
-                            type="text" 
+                            type="number" 
                             className='input' 
-                            value={email} 
-                            onChange = {(e) => setEmail(e.target.value)} placeholder='email' />
+                            value={horas_laboratorios} 
+                            onChange = {(e) => setHorasLaboratorios(e.target.value)} placeholder='horas_laboratorios' />
                     </div>
                </div>
                <div className="field">
-                    <label className='label'>logo </label>
+                    <label className='label'>nivel </label>
                     <div className="control">
                         <input 
                             type="text" 
                             className='input' 
-                            value={logo} 
-                            onChange = {(e) => setLogo(e.target.value)} placeholder='logo' />
+                            value={nivel} 
+                            onChange = {(e) => setNivel(e.target.value)} placeholder='nivel' />
                     </div>
                </div>
-               <div className="field">
-                    <label className='label'>escudo </label>
-                    <div className="control">
-                        <input 
-                            type="text" 
-                            className='input' 
-                            value={escudo} 
-                            onChange = {(e) => setEscudo(e.target.value)} placeholder='escudo' />
-                    </div>
-               </div>
-
+               
                <div className="field">
                     <label className='label'>Estado </label>
                     <div className="control">
@@ -191,4 +179,4 @@ const saveFacultad = async(e) => {
   )
 }
 
-export default AddFacultad;
+export default AddMateria;

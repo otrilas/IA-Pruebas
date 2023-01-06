@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 const AreaList = () => {
-const [areas, setUser] = useState([]);
+const [areas, setAreas] = useState([]);
 
 useEffect(()=>{
     getAreas();
@@ -11,7 +11,7 @@ useEffect(()=>{
 
 const getAreas = async ()=>{
     const response = await axios.get("http://localhost:5000/areas");
-    setUser(response.data); 
+    setAreas(response.data); 
 }
 
 const deleteArea = async (id) =>{

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 const CarreraList = () => {
-const [carrera, setUser] = useState([]);
+const [carrera, setCarrera] = useState([]);
 
 useEffect(()=>{
     getCarrera();
@@ -11,7 +11,7 @@ useEffect(()=>{
 
 const getCarrera = async ()=>{
     const response = await axios.get("http://localhost:5000/carreras");
-    setUser(response.data); 
+    setCarrera(response.data); 
 }
 
 const deleteCarrera = async (id) =>{

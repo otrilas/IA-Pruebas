@@ -1,39 +1,37 @@
 import React , {useState} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect } from "react";
 const SERVER = 'http://localhost:5000';
 
-const AddPiso = () => {
-const [id_edificio, setIdEdificio] = useState("");    
-const [nombre, setNombre] = useState("");
-const [descripcion, setDescripcion] = useState("");
+const AddDocente = () => {
+const [id_persona, setIdPersona] = useState("");
+const [titulo, setTitulo] = useState("");
+const [curriculo, setCurriculo] = useState("");
 const [estado, setEstado] = useState("1");
 
-const [edificios, setEdificios] = useState([]);
-
+const [personas, setPersonas] = useState([]);
 const navigate = useNavigate();
 
-const savePiso = async(e) => {
+const saveDocente = async(e) => {
     e.preventDefault();
     try {
-        await axios.post('http://localhost:5000/pisos',{
-            id_edificio,
-            nombre,
-            descripcion,
+        await axios.post('http://localhost:5000/docentes',{
+            id_persona,
+            titulo,
+            curriculo,
             estado
         });
-        navigate("/pisos/")
+        navigate("/docentes/")
     } catch (error) {
         console.log(error);
     }
 }
-
     useEffect(() => {
-        fetch(`${SERVER}/edificios`)
+        fetch(`${SERVER}/personas`)
             .then((response) => response.json())
             .then((data) => {
-                setEdificios(data);
+                setPersonas(data);
             })
             .catch((err) => console.log(err));
     }, []);
@@ -41,20 +39,19 @@ const savePiso = async(e) => {
   return (
     <div className="columns mt-5 is-centered">
         <div className="column is-half">
-            <form onSubmit={savePiso}>
-               <div className="field">
-                    <label className='label'>Id edificio</label>
+            <form onSubmit={saveDocente}>
+            <div className="field">
+                    <label className='label'>Id persona </label>
                     <div className="control">
                             <select
-                                name='edificio_id'
+                                name='area_id'
                                 id=''
-                                // disabled='disabled'
                                 className='input'
                                 onChange={(e) => {
-                                    setIdEdificio(e.target.value);
+                                    setIdPersona(e.target.value);
                                 }}
                             >
-                                {edificios.map(({ id, nombre }) => {
+                                {personas.map(({ id, nombre }) => {
                                     return (
                                         <option key={id} value={id}>
                                             {nombre}
@@ -64,25 +61,26 @@ const savePiso = async(e) => {
                             </select>
                     </div>
                </div>
-
                <div className="field">
-                    <label className='label'>Nombre </label>
+                    <label className='label'>titulo </label>
                     <div className="control">
                         <input 
                             type="text" 
                             className='input' 
-                            value={nombre} 
-                            onChange = {(e) => setNombre(e.target.value)} placeholder='Nombre' />
+                            value={titulo} 
+                            onChange = {(e) => setTitulo(e.target.value)} 
+                            placeholder='titulo' />
                     </div>
                </div>
+
                <div className="field">
-                    <label className='label'>Descripcion </label>
+                    <label className='label'>curriculo </label>
                     <div className="control">
                         <input 
                             type="text" 
                             className='input' 
-                            value={descripcion} 
-                            onChange = {(e) => setDescripcion(e.target.value)} placeholder='descripcion' />
+                            value={curriculo} 
+                            onChange = {(e) => setCurriculo(e.target.value)} placeholder='curriculo' />
                     </div>
                </div>
 
@@ -107,4 +105,4 @@ const savePiso = async(e) => {
   )
 }
 
-export default AddPiso;
+export default AddDocente;

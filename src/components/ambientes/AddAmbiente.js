@@ -4,57 +4,67 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 const SERVER = 'http://localhost:5000';
 
-const AddPiso = () => {
-const [id_edificio, setIdEdificio] = useState("");    
+const AddAmbiente = () => {
+const [id_piso, setIdPiso] = useState("");
+const [id_tipo_ambiente, setIdTipoAmbiente] = useState("");
 const [nombre, setNombre] = useState("");
 const [descripcion, setDescripcion] = useState("");
 const [estado, setEstado] = useState("1");
 
-const [edificios, setEdificios] = useState([]);
+const [pisos, setPisos] = useState([]);
+const [tipoambientes, setTipoAmbientes] = useState([]);
 
 const navigate = useNavigate();
 
-const savePiso = async(e) => {
+const saveAmbiente = async(e) => {
     e.preventDefault();
     try {
-        await axios.post('http://localhost:5000/pisos',{
-            id_edificio,
+        await axios.post('http://localhost:5000/ambientes',{
+            id_piso,
+            id_tipo_ambiente,
             nombre,
             descripcion,
             estado
         });
-        navigate("/pisos/")
+        navigate("/ambientes/")
     } catch (error) {
         console.log(error);
     }
 }
 
     useEffect(() => {
-        fetch(`${SERVER}/edificios`)
+        fetch(`${SERVER}/pisos`)
             .then((response) => response.json())
             .then((data) => {
-                setEdificios(data);
+                setPisos(data);
+            })
+            .catch((err) => console.log(err));
+        
+        fetch(`${SERVER}/tipoambientes`)
+            .then((response) => response.json())
+            .then((data) => {
+                setTipoAmbientes(data);
             })
             .catch((err) => console.log(err));
     }, []);
 
+
   return (
     <div className="columns mt-5 is-centered">
         <div className="column is-half">
-            <form onSubmit={savePiso}>
-               <div className="field">
-                    <label className='label'>Id edificio</label>
+            <form onSubmit={saveAmbiente}>
+            <div className="field">
+                    <label className='label'>Id Piso </label>
                     <div className="control">
                             <select
-                                name='edificio_id'
+                                name='piso_id'
                                 id=''
-                                // disabled='disabled'
                                 className='input'
                                 onChange={(e) => {
-                                    setIdEdificio(e.target.value);
+                                    setIdPiso(e.target.value);
                                 }}
                             >
-                                {edificios.map(({ id, nombre }) => {
+                                {pisos.map(({ id, nombre }) => {
                                     return (
                                         <option key={id} value={id}>
                                             {nombre}
@@ -64,7 +74,27 @@ const savePiso = async(e) => {
                             </select>
                     </div>
                </div>
-
+               <div className="field">
+                    <label className='label'>Id Tipo Ambiente </label>
+                    <div className="control">
+                            <select
+                                name='tipoambiente_id'
+                                id=''
+                                className='input'
+                                onChange={(e) => {
+                                    setIdTipoAmbiente(e.target.value);
+                                }}
+                            >
+                                {tipoambientes.map(({ id, nombre }) => {
+                                    return (
+                                        <option key={id} value={id}>
+                                            {nombre}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                    </div>
+               </div>
                <div className="field">
                     <label className='label'>Nombre </label>
                     <div className="control">
@@ -72,9 +102,11 @@ const savePiso = async(e) => {
                             type="text" 
                             className='input' 
                             value={nombre} 
-                            onChange = {(e) => setNombre(e.target.value)} placeholder='Nombre' />
+                            onChange = {(e) => setNombre(e.target.value)} 
+                            placeholder='Nombre' />
                     </div>
                </div>
+
                <div className="field">
                     <label className='label'>Descripcion </label>
                     <div className="control">
@@ -82,7 +114,7 @@ const savePiso = async(e) => {
                             type="text" 
                             className='input' 
                             value={descripcion} 
-                            onChange = {(e) => setDescripcion(e.target.value)} placeholder='descripcion' />
+                            onChange = {(e) => setDescripcion(e.target.value)} placeholder='Descripcion' />
                     </div>
                </div>
 
@@ -107,4 +139,4 @@ const savePiso = async(e) => {
   )
 }
 
-export default AddPiso;
+export default AddAmbiente;

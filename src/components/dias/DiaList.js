@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 const DiaList = () => {
-const [dia, setUser] = useState([]);
+const [dia, setDia] = useState([]);
 
 useEffect(()=>{
     getDia();
@@ -11,7 +11,7 @@ useEffect(()=>{
 
 const getDia = async ()=>{
     const response = await axios.get("http://localhost:5000/dias");
-    setUser(response.data); 
+    setDia(response.data); 
 }
 
 const deleteDia = async (id) =>{

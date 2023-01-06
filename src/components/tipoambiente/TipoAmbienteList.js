@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 const TipoAmbienteList = () => {
-const [tipoambiente, setUser] = useState([]);
+const [tipoambiente, setTipoAmbiente] = useState([]);
 
 useEffect(()=>{
     getTipoAmbiente();
@@ -11,7 +11,7 @@ useEffect(()=>{
 
 const getTipoAmbiente = async ()=>{
     const response = await axios.get("http://localhost:5000/tipoambientes");
-    setUser(response.data); 
+    setTipoAmbiente(response.data); 
 }
 
 const deleteTipoAmbiente = async (id) =>{

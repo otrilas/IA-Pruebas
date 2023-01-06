@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 const HoraList = () => {
-const [hora, setUser] = useState([]);
+const [hora, setHora] = useState([]);
 
 useEffect(()=>{
     getHora();
@@ -11,7 +11,7 @@ useEffect(()=>{
 
 const getHora = async ()=>{
     const response = await axios.get("http://localhost:5000/horas");
-    setUser(response.data); 
+    setHora(response.data); 
 }
 
 const deleteHora = async (id) =>{

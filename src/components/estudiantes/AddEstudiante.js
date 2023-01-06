@@ -1,60 +1,56 @@
 import React , {useState} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect } from "react";
 const SERVER = 'http://localhost:5000';
 
-const AddPiso = () => {
-const [id_edificio, setIdEdificio] = useState("");    
-const [nombre, setNombre] = useState("");
-const [descripcion, setDescripcion] = useState("");
+const AddEstudiante = () => {
+const [id_persona, setIdPersona] = useState("");
+const [cu, setCU] = useState("");
 const [estado, setEstado] = useState("1");
 
-const [edificios, setEdificios] = useState([]);
-
+const [personas, setPersonas] = useState([]);
 const navigate = useNavigate();
 
-const savePiso = async(e) => {
+const saveEstudiante = async(e) => {
     e.preventDefault();
     try {
-        await axios.post('http://localhost:5000/pisos',{
-            id_edificio,
-            nombre,
-            descripcion,
+        await axios.post('http://localhost:5000/estudiantes',{
+            id_persona,
+            cu,
             estado
         });
-        navigate("/pisos/")
+        navigate("/estudiantes/")
     } catch (error) {
         console.log(error);
     }
 }
 
-    useEffect(() => {
-        fetch(`${SERVER}/edificios`)
-            .then((response) => response.json())
-            .then((data) => {
-                setEdificios(data);
-            })
-            .catch((err) => console.log(err));
-    }, []);
+useEffect(() => {
+    fetch(`${SERVER}/personas`)
+        .then((response) => response.json())
+        .then((data) => {
+            setPersonas(data);
+        })
+        .catch((err) => console.log(err));
+}, []);
 
   return (
     <div className="columns mt-5 is-centered">
         <div className="column is-half">
-            <form onSubmit={savePiso}>
-               <div className="field">
-                    <label className='label'>Id edificio</label>
+            <form onSubmit={saveEstudiante}>
+            <div className="field">
+                    <label className='label'>Id persona </label>
                     <div className="control">
                             <select
-                                name='edificio_id'
+                                name='perosna_id'
                                 id=''
-                                // disabled='disabled'
                                 className='input'
                                 onChange={(e) => {
-                                    setIdEdificio(e.target.value);
+                                    setIdPersona(e.target.value);
                                 }}
                             >
-                                {edificios.map(({ id, nombre }) => {
+                                {personas.map(({ id, nombre }) => {
                                     return (
                                         <option key={id} value={id}>
                                             {nombre}
@@ -64,25 +60,15 @@ const savePiso = async(e) => {
                             </select>
                     </div>
                </div>
-
                <div className="field">
-                    <label className='label'>Nombre </label>
+                    <label className='label'>C U </label>
                     <div className="control">
                         <input 
                             type="text" 
                             className='input' 
-                            value={nombre} 
-                            onChange = {(e) => setNombre(e.target.value)} placeholder='Nombre' />
-                    </div>
-               </div>
-               <div className="field">
-                    <label className='label'>Descripcion </label>
-                    <div className="control">
-                        <input 
-                            type="text" 
-                            className='input' 
-                            value={descripcion} 
-                            onChange = {(e) => setDescripcion(e.target.value)} placeholder='descripcion' />
+                            value={cu} 
+                            onChange = {(e) => setCU(e.target.value)} 
+                            placeholder='c u' />
                     </div>
                </div>
 
@@ -107,4 +93,4 @@ const savePiso = async(e) => {
   )
 }
 
-export default AddPiso;
+export default AddEstudiante;
