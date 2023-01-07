@@ -1,6 +1,7 @@
 import React , {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate , useParams} from 'react-router-dom';
+const SERVER = 'http://localhost:5000';
 
 const EditCarrera = () => {
 const [id_facultad, setIdFacultad] = useState("");    
@@ -13,6 +14,8 @@ const [telefono, setTelefono] = useState("");
 const [logo, setLogo] = useState("");
 const [email, setEmail] = useState("");
 const [estado, setEstado] = useState("1");
+
+const [facultades, setFacultades] = useState([]);
 const navigate = useNavigate();
 const {id} = useParams();
 
@@ -54,6 +57,14 @@ const getCarreraById = async () => {
     setEmail(response.data.email);
     setEstado(response.data.estado);
 }
+useEffect(() => {
+    fetch(`${SERVER}/facultades`)
+        .then((response) => response.json())
+        .then((data) => {
+            setFacultades(data);
+        })
+        .catch((err) => console.log(err));
+}, []);
 
   return (
     <div className="columns mt-5 is-centered">
@@ -62,12 +73,23 @@ const getCarreraById = async () => {
                <div className="field">
                     <label className='label'>id_area </label>
                     <div className="control">
-                        <input 
-                            type="number" 
-                            className='input' 
-                            value={id_facultad} 
-                            onChange = {(e) => setIdFacultad(e.target.value)} 
-                            placeholder='id facultad' />
+                            <select
+                                name='facultad_id'
+                                id=''
+                                // disabled='disabled'
+                                className='input'
+                                onChange={(e) => {
+                                    setIdFacultad(e.target.value);
+                                }}
+                            >
+                                {facultades.map(({ id, nombre }) => {
+                                    return (
+                                        <option key={id} value={id}>
+                                            {nombre}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                     </div>
                </div>
 

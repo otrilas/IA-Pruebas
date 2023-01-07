@@ -1,12 +1,15 @@
 import React , {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate , useParams} from 'react-router-dom';
+const SERVER = 'http://localhost:5000';
 
 const EditPiso = () => {
 const [id_edificio, setIdEdificio] = useState("");    
 const [nombre, setNombre] = useState("");
 const [descripcion, setDescripcion] = useState("");
 const [estado, setEstado] = useState("1");
+
+const [edificios, setEdificios] = useState([]);
 const navigate = useNavigate();
 const {id} = useParams();
 
@@ -36,6 +39,14 @@ const getPisoById = async () => {
     setDescripcion(response.data.descripcion);
     setEstado(response.data.estado);
 }
+useEffect(() => {
+    fetch(`${SERVER}/edificios`)
+        .then((response) => response.json())
+        .then((data) => {
+            setEdificios(data);
+        })
+        .catch((err) => console.log(err));
+}, []);
 
   return (
     <div className="columns mt-5 is-centered">
@@ -44,12 +55,23 @@ const getPisoById = async () => {
                <div className="field">
                     <label className='label'>id edificio </label>
                     <div className="control">
-                        <input 
-                            type="number" 
-                            className='input' 
-                            value={id_edificio} 
-                            onChange = {(e) => setIdEdificio(e.target.value)} 
-                            placeholder='id edificio' />
+                            <select
+                                name='edificio_id'
+                                id=''
+                                // disabled='disabled'
+                                className='input'
+                                onChange={(e) => {
+                                    setIdEdificio(e.target.value);
+                                }}
+                            >
+                                {edificios.map(({ id, nombre }) => {
+                                    return (
+                                        <option key={id} value={id}>
+                                            {nombre}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                     </div>
                </div>
 

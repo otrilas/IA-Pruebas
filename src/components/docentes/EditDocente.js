@@ -1,12 +1,15 @@
 import React , {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate , useParams} from 'react-router-dom';
+const SERVER = 'http://localhost:5000';
 
 const EditDocente = () => {
 const [id_persona, setIdPersona] = useState("");
 const [titulo, setTitulo] = useState("");
 const [curriculo, setCurriculo] = useState("");
 const [estado, setEstado] = useState("1");
+
+const [personas, setPersonas] = useState([]);
 const navigate = useNavigate();
 const {id} = useParams();
 
@@ -36,6 +39,14 @@ const getDocenteById = async () => {
     setCurriculo(response.data.curriculo);
     setEstado(response.data.estado);
 }
+useEffect(() => {
+    fetch(`${SERVER}/personas`)
+        .then((response) => response.json())
+        .then((data) => {
+            setPersonas(data);
+        })
+        .catch((err) => console.log(err));
+}, []);
 
   return (
     <div className="columns mt-5 is-centered">
@@ -44,12 +55,22 @@ const getDocenteById = async () => {
                <div className="field">
                     <label className='label'>Id Persona </label>
                     <div className="control">
-                        <input 
-                            type="number" 
-                            className='input' 
-                            value={id_persona} 
-                            onChange = {(e) => setIdPersona(e.target.value)} 
-                            placeholder='id persona' />
+                            <select
+                                name='area_id'
+                                id=''
+                                className='input'
+                                onChange={(e) => {
+                                    setIdPersona(e.target.value);
+                                }}
+                            >
+                                {personas.map(({ id, nombre }) => {
+                                    return (
+                                        <option key={id} value={id}>
+                                            {nombre}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                     </div>
                </div>
               

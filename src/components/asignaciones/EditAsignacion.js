@@ -1,6 +1,7 @@
 import React , {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate , useParams} from 'react-router-dom';
+const SERVER = 'http://localhost:5000';
 
 const EditAmbiente = () => {
 const [id_docente, setIdDocente] = useState("");
@@ -10,6 +11,11 @@ const [id_horario, setIdHorario] = useState("");
 const [grupo, setGrupo] = useState("");
 const [max_estudiantes, setMaxEstudiantes] = useState("");
 const [estado, setEstado] = useState("1");
+
+const [docentes, setDocentes] = useState([]);
+const [materias, setMaterias] = useState([]);
+const [gestiones, setGestiones] = useState([]);
+const [horarios, setHorarios] = useState([]);
 const navigate = useNavigate();
 const {id} = useParams();
 
@@ -46,6 +52,36 @@ const getAsignacionById = async () => {
     setEstado(response.data.estado);
 }
 
+useEffect(() => {
+    fetch(`${SERVER}/docentes`)
+        .then((response) => response.json())
+        .then((data) => {
+            setDocentes(data);
+        })
+        .catch((err) => console.log(err));
+
+    fetch(`${SERVER}/materias`)
+        .then((response) => response.json())
+        .then((data) => {
+            setMaterias(data);
+        })
+        .catch((err) => console.log(err));
+    
+    fetch(`${SERVER}/gestiones`)
+        .then((response) => response.json())
+        .then((data) => {
+            setGestiones(data);
+        })
+        .catch((err) => console.log(err));
+    
+    fetch(`${SERVER}/horarios`)
+        .then((response) => response.json())
+        .then((data) => {
+            setHorarios(data);
+        })
+        .catch((err) => console.log(err));
+}, []);
+
   return (
     <div className="columns mt-5 is-centered">
         <div className="column is-half">
@@ -53,45 +89,90 @@ const getAsignacionById = async () => {
             <div className="field">
                     <label className='label'>Id Docente </label>
                     <div className="control">
-                        <input 
-                            type="number" 
-                            className='input' 
-                            value={id_docente} 
-                            onChange = {(e) => setIdDocente(e.target.value)} 
-                            placeholder='Docente' />
+                            <select
+                                name='docente_id'
+                                id=''
+                                // disabled='disabled'
+                                className='input'
+                                onChange={(e) => {
+                                    setIdDocente(e.target.value);
+                                }}
+                            >
+                                {docentes.map(({ id, titulo }) => {
+                                    return (
+                                        <option key={id} value={id}>
+                                            {titulo}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                     </div>
                </div>
                <div className="field">
                     <label className='label'>id Materia </label>
                     <div className="control">
-                        <input 
-                            type="number" 
-                            className='input' 
-                            value={id_materia} 
-                            onChange = {(e) => setIdMateria(e.target.value)} 
-                            placeholder='Materia' />
+                            <select
+                                name='materia_id'
+                                id=''
+                                // disabled='disabled'
+                                className='input'
+                                onChange={(e) => {
+                                    setIdMateria(e.target.value);
+                                }}
+                            >
+                                {materias.map(({ id, nombre }) => {
+                                    return (
+                                        <option key={id} value={id}>
+                                            {nombre}
+                                        </option>
+                                    );
+                                })}
+                            </select> 
                     </div>
                </div>
                <div className="field">
                     <label className='label'>id Gestion </label>
                     <div className="control">
-                        <input 
-                            type="number" 
-                            className='input' 
-                            value={id_gestion} 
-                            onChange = {(e) => setIdGestion(e.target.value)} 
-                            placeholder='Gestion' />
+                            <select
+                                name='gestion_id'
+                                id=''
+                                // disabled='disabled'
+                                className='input'
+                                onChange={(e) => {
+                                    setIdGestion(e.target.value);
+                                }}
+                            >
+                                {gestiones.map(({ id, nombre }) => {
+                                    return (
+                                        <option key={id} value={id}>
+                                            {nombre}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                     </div>
                </div>
 
                <div className="field">
                     <label className='label'>id Horario </label>
                     <div className="control">
-                        <input 
-                            type="number" 
-                            className='input' 
-                            value={id_horario} 
-                            onChange = {(e) => setIdHorario(e.target.value)} placeholder='Horario' />
+                            <select
+                                name='horario_id'
+                                id=''
+                                // disabled='disabled'
+                                className='input'
+                                onChange={(e) => {
+                                    setIdHorario(e.target.value);
+                                }}
+                            >
+                                {horarios.map(({ id, id_dia }) => {
+                                    return (
+                                        <option key={id} value={id}>
+                                            {id_dia}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                     </div>
                </div>
                <div className="field">

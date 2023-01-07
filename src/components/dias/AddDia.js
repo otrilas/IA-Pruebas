@@ -30,7 +30,7 @@ const saveDia = async(e) => {
                     <label className='label'>Codigo </label>
                     <div className="control">
                         <input 
-                            type="number" 
+                            type="text" 
                             className='input' 
                             value={codigo} 
                             onChange = {(e) => setCodigo(e.target.value)} 

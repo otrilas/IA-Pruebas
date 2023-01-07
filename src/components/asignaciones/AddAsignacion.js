@@ -73,7 +73,7 @@ useEffect(() => {
             <div className="field">
                     <label className='label'>Id Docente </label>
                     <div className="control">
-                    <select
+                            <select
                                 name='docente_id'
                                 id=''
                                 // disabled='disabled'
@@ -163,7 +163,7 @@ useEffect(() => {
                     <label className='label'>grupo </label>
                     <div className="control">
                         <input 
-                            type="numbre" 
+                            type="number" 
                             className='input' 
                             value={grupo} 
                             onChange = {(e) => setGrupo(e.target.value)} placeholder='grupo' />
