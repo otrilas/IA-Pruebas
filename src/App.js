@@ -71,9 +71,10 @@ import EditEstudiante from "./components/estudiantes/EditEstudiante";
 function App() { 
   return (
     <BrowserRouter>
-      <Navbar />
+      
       <Routes>
         {/* <Route path='/' element={<Navbar />} /> */}
+        <Route path='/' element={<Navbar />} /> 
         <Route path="/ambientes/" element = {<AmbienteList/>} />
         <Route path="/ambientes/add" element = {<AddAmbiente/>} />
         <Route path="/ambientes/edit/:id" element = {<EditAmbiente/>} />

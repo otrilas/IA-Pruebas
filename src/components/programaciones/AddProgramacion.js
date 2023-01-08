@@ -2,7 +2,7 @@ import React , {useState} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-const SERVER = 'http://localhost:500';
+const SERVER = 'http://localhost:5000';
 
 const AddProgramacion = () => {
 const [id_estudiante, setIdEstudiante] = useState("");
@@ -31,14 +31,14 @@ const saveProgramacion = async(e) => {
         fetch(`${SERVER}/estudiantes`)
             .then((response) => response.json())
             .then((data) => {
-                setEstudiante(data);
+                setEstudiantes(data);
             })
             .catch((err) => console.log(err));
         
         fetch(`${SERVER}/asignaciones`)
         .then((response) => response.json())
         .then((data) => {
-            setAsignacion(data);
+            setAsignaciones(data);
         })
         .catch((err) => console.log(err));
     }, []);

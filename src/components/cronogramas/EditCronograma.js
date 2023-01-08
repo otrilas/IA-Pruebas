@@ -40,7 +40,7 @@ const getCronogramaById = async () => {
   return (
     <div className="columns mt-5 is-centered">
         <div className="column is-half">
-            <form onSubmit={updateAsignacion}>
+            <form onSubmit={updateCronograma}>
             <div className="field">
                     <label className='label'>Id programaciones </label>
                     <div className="control">
